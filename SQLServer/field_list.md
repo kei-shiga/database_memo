@@ -1,31 +1,11 @@
 # 【SQLServer】フィールド情報の取得
 
-テーブル情報の取得と同じように、SYS***関連のテーブルを結合することで取得できます。
-得たい情報によって結合するSYS***が変わりますが、大体こんな感じになるんじゃないかなと思います。
+テーブル情報の取得と同じように、SYS*** 関連のテーブルを結合することで取得できます。
+得たい情報によって結合するSYS*** が変わりますが、大体こんな感じになるんじゃないかなと思います。
 少々長いですが、フィールドの方向やIDENTITYかどうかも取得できるようになっています。
 
 このSQLでは、テーブル以外にもストアドの情報まで取れるようになっています。
 PROCEDURE_NO が1以上のときは、ストアドで使用される項目となります。
-
-```
-SELECT 
-	c.column_id AS ColumnID,
-    c.name AS ColumnName, 
-    t.name AS ColumnType, 
-    c.max_length AS ColumnSize, 
-    c.precision AS ColumnNumSize, 
-    c.is_identity AS IsIdentity 
-FROM 
-    sys.objects o
-    INNER JOIN sys.columns c ON c.object_id = o.object_id 
-    INNER JOIN sys.types t ON t.system_type_id = c.system_type_id 
-WHERE 
-    o.type = 'U' 
-    AND o.is_ms_shipped = 0 
-    AND o.name = '対象テーブル名' 
-ORDER BY 
-    1
-```
 
 ```
 SELECT 
@@ -51,4 +31,26 @@ WHERE
 ORDER BY 
     A.NUMBER, 
     A.COLID
+```
+
+sys. 系のテーブルでも同様の情報が取得できますが、できることが若干違います。
+
+```
+SELECT 
+    c.column_id AS FIELD_ID,
+    c.name AS FIELD_NAME, 
+    t.name AS FIELD_TYPE, 
+    c.max_length AS FIELD_SIZE, 
+    c.precision AS FIELD_NUM_SIZE, 
+    c.is_identity AS IS_IDENTITY 
+FROM 
+    sys.objects o
+    INNER JOIN sys.columns c ON c.object_id = o.object_id 
+    INNER JOIN sys.types t ON t.system_type_id = c.system_type_id 
+WHERE 
+    o.type = 'U' 
+    AND o.is_ms_shipped = 0 
+    AND o.name = '対象テーブル名' 
+ORDER BY 
+    c.column_id
 ```
