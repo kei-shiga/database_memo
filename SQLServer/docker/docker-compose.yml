@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mssql:
+    container_name: mssql-server-samplesdb
+    build:
+      context: ./sqlserver/
+      dockerfile: Dockerfile
+    image: mssql
+    hostname:
+        mssql-samplesdb
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SQLServer2019 # パスワードポリシー(https://docs.microsoft.com/ja-jp/sql/relational-databases/security/password-policy?view=sql-server-ver15)
+      - MSSQL_PID=Express # SQL Serverのエディションまたはプロダクトキー
+      - MSSQL_LCID=1041 # ロケールID 日本語 (https://www.ryadel.com/en/microsoft-windows-lcid-list-decimal-and-hex-all-locale-codes-ids/)
+      - MSSQL_COLLATION=Japanese_CI_AS # 照合順
+      - DB_NAME=Northwind # 初回起動時のDB存在判定のために使用します。
+    volumes:
+      - ./sqlserver/initdb.d:/docker-entrypoint-initdb.d
+      - ./sqlserver/data:/var/opt/mssql/data
+      - ./sqlserver/log:/var/opt/mssql/log
+      - ./sqlserver/secrets:/var/opt/mssql/sec
