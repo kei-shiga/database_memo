@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mssql:
+    container_name: mysql-server-samplesdb
+    image: mysql:8.0
+    command: mysqld --log_bin_trust_function_creators=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    hostname:
+        mysql-samplesdb
+    ports:
+      - 3306:${DOCKER_DB_PORT}
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE} # デフォルトのデータベース名
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - TZ=${APP_TZ:-Asia/Tokyo} # タイムゾーン      TZ: ${APP_TZ:Asia/Tokyo}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
