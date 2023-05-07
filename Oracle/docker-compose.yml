@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  mssql:
+    container_name: oracle-server-samplesdb
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    hostname: oracle-samplesdb
+    ports:
+      - 1521:${DOCKER_DB_PORT}
+      - 5500:${EM_EXPRESS_PORT}
+    environment:
+      - ORACLE_PWD=${SYS_PASSWORD}
+      - ORACLE_SID=${SID}
+      - ORACLE_CHARACTERSET=${CHARSET}
+      - NLS_LANG=${NLS_LANG}
+      - TZ=${APP_TZ}
+    volumes:
+      - ./scripts/startup:/opt/oracle/scripts/startup
+      - oradata:/opt/oracle/oradata
+volumes:
+  oradata:

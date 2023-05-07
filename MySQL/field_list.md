@@ -1,10 +1,10 @@
 # 【MySQL】フィールド情報の取得
 
-テーブル情報の取得と同じように、information_schema スキーマのテーブルから取得できます。
+テーブル情報の取得と同じように、information_schema スキーマのテーブルから取得できます.
 
 ## フィールド情報の取得
 
-PRIMARY KEY となっているフィールドは COLUMN_KEY が `PRI` となり、auto_increment のフィールドは EXTRA が `auto_increment` となっています。
+PRIMARY KEY となっているフィールドは COLUMN_KEY が `PRI` となり、auto_increment のフィールドは EXTRA が `auto_increment` となっています.
 
 ```
 SELECT 
@@ -26,7 +26,7 @@ ORDER BY
 
 ## インデックス情報の取得
 
-インデックス情報も同様に `information_schema.KEY_COLUMN_USAGE` テーブルから取得できます。
+インデックス情報も同様に `information_schema.KEY_COLUMN_USAGE` テーブルから取得できます.
 
 ```
 SELECT
